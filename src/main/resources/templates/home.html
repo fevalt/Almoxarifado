@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Almoxarifado | Início</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #1f2937;
+        }
+
+        /* ===== SIDEBAR ===== */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            width: 240px;
+            height: 100vh;
+
+            background: #111827;
+            color: white;
+
+            padding: 28px 18px;
+
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            padding: 0 10px;
+            margin-bottom: 45px;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+
+            background: #2563eb;
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .logo h2 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .menu-title {
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 600;
+
+            text-transform: uppercase;
+            letter-spacing: 1px;
+
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #9ca3af;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #1f2937;
+            color: white;
+        }
+
+        .menu a.active {
+            border-left: 3px solid #3b82f6;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        .logout {
+            margin-top: auto;
+        }
+
+        .logout a {
+            color: #9ca3af;
+        }
+
+        .logout a:hover {
+            color: #ef4444;
+        }
+
+        /* ===== MAIN ===== */
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+            padding: 35px 45px;
+        }
+
+        /* ===== HEADER ===== */
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .header p {
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+
+            border-radius: 50%;
+
+            background: #dbeafe;
+            color: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-weight: 600;
+        }
+
+        .user-info strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .user-info span {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* ===== CARDS ===== */
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 22px;
+
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                    0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 9px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+        .card-label {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .card-value {
+            font-size: 27px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .card-description {
+            margin-top: 5px;
+
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+        /* ===== CONTENT ===== */
+
+        .content {
+            display: grid;
+
+            grid-template-columns: 2fr 1fr;
+
+            gap: 20px;
+        }
+
+        .panel {
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 12px;
+
+            padding: 24px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .panel-header h2 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .panel-header a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        /* ===== TABELA ===== */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+
+            color: #9ca3af;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            padding: 10px;
+
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        td {
+            padding: 14px 10px;
+
+            font-size: 13px;
+
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+        }
+
+        .entrada {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .saida {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        /* ===== AÇÕES ===== */
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action {
+            display: flex;
+            align-items: center;
+
+            gap: 14px;
+
+            padding: 14px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            color: #374151;
+
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            background: #f9fafb;
+
+            border-color: #d1d5db;
+        }
+
+        .action-icon {
+            width: 36px;
+            height: 36px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+            color: #2563eb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-text strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 3px;
+        }
+
+        .action-text span {
+            color: #9ca3af;
+
+            font-size: 11px;
+        }
+
+        /* ===== RESPONSIVO ===== */
+
+        @media (max-width: 1000px) {
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 70px;
+                padding: 20px 10px;
+            }
+
+            .logo h2,
+            .menu-title,
+            .menu a span,
+            .logout span {
+                display: none;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .menu a {
+                justify-content: center;
+            }
+
+            .main {
+                margin-left: 70px;
+                padding: 25px 20px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .user-info {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            📦
+        </div>
+
+        <h2>Almoxarifado</h2>
+
+    </div>
+
+
+    <div class="menu-title">
+        Menu
+    </div>
+
+    <nav class="menu">
+
+        <a href="home.html" class="active">
+            <div class="menu-icon">⌂</div>
+            <span>Início</span>
+        </a>
+
+        <a href="#">
+            <div class="menu-icon">📦</div>
+            <span>Recursos</span>
+        </a>
+
+        <a href="#">
+            <div class="menu-icon">↕</div>
+            <span>Movimentações</span>
+        </a>
+
+        <a href="#">
+            <div class="menu-icon">👥</div>
+            <span>Colaboradores</span>
+        </a>
+
+        <a href="#">
+            <div class="menu-icon">📊</div>
+            <span>Relatórios</span>
+        </a>
+
+    </nav>
+
+
+    <div class="logout">
+
+        <nav class="menu">
+
+            <a href="#">
+                <div class="menu-icon">⚙</div>
+                <span>Configurações</span>
+            </a>
+
+            <a href="login.html">
+                <div class="menu-icon">↪</div>
+                <span>Sair</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <h1>Olá, seja bem-vindo 👋</h1>
+
+            <p>
+                Aqui está um resumo do seu almoxarifado.
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- CARDS -->
+
+    <section class="cards">
+        <div class="card">
+            <div class="card-top">
+                <span class="card-label">
+                    Recursos cadastrados
+                </span>
+                <div class="card-icon">
+                    📦
+                </div>
+            </div>
+
+            <div class="card-value">
+                128
+            </div>
+
+            <div class="card-description">
+                Itens registrados no sistema
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-top">
+
+                <span class="card-label">
+                    Estoque disponível
+                </span>
+
+                <div class="card-icon">
+                    ✓
+                </div>
+
+            </div>
+
+            <div class="card-value">
+                96
+            </div>
+
+            <div class="card-description">
+                Recursos disponíveis
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-top">
+
+                <span class="card-label">
+                    Saídas hoje
+                </span>
+
+                <div class="card-icon">
+                    ↑
+                </div>
+
+            </div>
+
+            <div class="card-value">
+                14
+            </div>
+
+            <div class="card-description">
+                Recursos retirados hoje
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-top">
+
+                <span class="card-label">
+                    Estoque baixo
+                </span>
+
+                <div class="card-icon">
+                    !
+                </div>
+
+            </div>
+
+            <div class="card-value">
+                5
+            </div>
+
+            <div class="card-description">
+                Recursos precisam de atenção
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTEÚDO -->
+
+    <section class="content">
+
+
+        <!-- MOVIMENTAÇÕES -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h2>Movimentações recentes</h2>
+
+                <a href="#">
+                    Ver todas
+                </a>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>Recurso</th>
+
+                    <th>Colaborador</th>
+
+                    <th>Tipo</th>
+
+                    <th>Data</th>
+
+                </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                <tr>
+
+                    <td>Notebook Dell</td>
+
+                    <td>João Silva</td>
+
+                    <td>
+                        <span class="status saida">
+                            Saída
+                        </span>
+                    </td>
+
+                    <td>23/08/2026</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Mouse sem fio</td>
+
+                    <td>Maria Souza</td>
+
+                    <td>
+                        <span class="status entrada">
+                            Entrada
+                        </span>
+                    </td>
+
+                    <td>23/08/2026</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Teclado mecânico</td>
+
+                    <td>Carlos Lima</td>
+
+                    <td>
+                        <span class="status saida">
+                            Saída
+                        </span>
+                    </td>
+
+                    <td>22/08/2026</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Monitor 24"</td>
+
+                    <td>Ana Costa</td>
+
+                    <td>
+                        <span class="status entrada">
+                            Entrada
+                        </span>
+                    </td>
+
+                    <td>22/08/2026</td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <!-- AÇÕES -->
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h2>Acesso rápido</h2>
+
+            </div>
+
+
+            <div class="actions">
+
+                <a href="#" class="action">
+
+                    <div class="action-icon">
+                        +
+                    </div>
+
+                    <div class="action-text">
+
+                        <strong>
+                            Cadastrar recurso
+                        </strong>
+
+                        <span>
+                            Adicione um novo item
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="#" class="action">
+
+                    <div class="action-icon">
+                        ↕
+                    </div>
+
+                    <div class="action-text">
+
+                        <strong>
+                            Registrar movimentação
+                        </strong>
+
+                        <span>
+                            Entrada ou saída
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="#" class="action">
+
+                    <div class="action-icon">
+                        👤
+                    </div>
+
+                    <div class="action-text">
+
+                        <strong>
+                            Novo colaborador
+                        </strong>
+
+                        <span>
+                            Cadastrar usuário
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="#" class="action">
+
+                    <div class="action-icon">
+                        📊
+                    </div>
+
+                    <div class="action-text">
+
+                        <strong>
+                            Gerar relatório
+                        </strong>
+
+                        <span>
+                            Consulte os dados do estoque
+                        </span>
+
+                    </div>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
